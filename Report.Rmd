@@ -1,0 +1,77 @@
+---
+title: "Report - Allegheny County Weights and measures inspections"
+author: "Marcelo Eduardo Redoschi"
+date: "8/5/2021"
+---
+```{r}
+# 8 - 5 - 2021
+## UNIBZ course: Programming and Visualisation for Data Analytics
+## Data Visualisation and Exploration (Prof. Matteo Ceccarello)
+# Author: "Marcelo Eduardo Redoschi"
+
+library(tidyverse)
+library(sf)
+library(here)
+# https://www.pasda.psu.edu/
+# 
+```
+
+```{r}
+main_dir <-file.path(getwd())  # Main project folder
+drafts <-file.path(main_dir,"drafts")
+data_dir <- file.path(main_dir, "Data")
+maps_dir <- file.path(data_dir, "maps")
+maps_zip_dir <- file.path(maps_dir, "zip")
+```
+
+```{r}
+#pa_municipality_boundaries_url<-"ftp://ftp.pasda.psu.edu/pub/pasda/padot/boundary_layers/PaMunicipalities2021_03.zip"
+pa_server_dir<-"ftp://ftp.pasda.psu.edu/pub/pasda/padot/boundary_layers"
+pa_municipalities_fname<-'PaMunicipalities2021_03.zip'
+pa_municipality_boundaries_url<-paste(pa_server_dir,pa_municipalities_fname,sep="/") 
+
+pa_municipality_boundaries_zip_path<-file.path(maps_zip_dir, "PaMunicipalities2021_03.zip")
+if (!file.exists(pa_municipality_boundaries_zip_path)) { 
+  download.file(pa_municipality_boundaries_url, pa_municipality_boundaries_zip_path)
+  unzip(pa_municipality_boundaries_zip_path, exdir=maps_dir)
+}
+
+pa_municipality_boundaries_shp_fname<-"PaMunicipalities2021_03.shp"
+pa_municipality_boundaries_shp_path<-file.path(maps_dir,pa_municipality_boundaries_shp_fname)
+
+```
+
+```{r}
+require(sf)
+
+
+# ***** Jhub ***** 
+if (grepl("jovyan", getwd(), fixed=TRUE)) { 
+
+  pa_municipalities_shape <-st_read(pa_municipality_boundaries_shp_path)   
+
+} else { 
+  
+# ***** Local machine *****
+
+    pa_municipalities_shape <- here(pa_municipality_boundaries_shp_path) %>% 
+    st_read()  
+}
+```
+
+
+```{r}
+pa_municipalities_shape
+```
+
+
+```{r}
+ggplot(pa_municipalities_shape)+geom_sf()
+```
+
+```{r}
+allegheny_shape<-pa_municipalities_shape %>% filter(COUNTY=="02")
+```
+```{r}
+ggplot(allegheny_shape)+geom_sf(aes(fill=CLASS_OF_M),color="black")+theme_minimal()+scale_fill_brewer(type = "div")
+```
