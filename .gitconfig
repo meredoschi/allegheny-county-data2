@@ -1,0 +1,21 @@
+# This is Git's per-user configuration file.
+[core]
+# Please adapt and uncomment the following lines:
+	user = Marcelo Eduardo Redoschi
+	email = mredoschi@unibz.it
+	precomposeunicode = true
+	editor = nano
+
+[user]
+	name = Marcelo Eduardo Redoschi
+	email = mredoschi@unibz.it
+[push]
+	default = matching
+
+[filter "lfs"]
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+	clean = git-lfs clean -- %f
+[status]
+	submoduleSummary = true
