@@ -1,10 +1,19 @@
 ---
-title: "Report - Allegheny County Weights and measures inspections"
+title: "R Report - Allegheny County's Bureau of Weights and Measures"
 author: "Marcelo Eduardo Redoschi"
-date: "8/5/2021"
+date: "8/May/2021"
 ---
+
+--- 
+### Course: Unibz - Programming and Visualisation for Data Analytics - Programming for Data Analytics - Data Visualisation and Exploration  - 2020/21 - 73047A
+
+
+*Continues from Part I, the Python notebooks, presented previously.*
+
+---
+
 ```{r}
-# 8 - 5 - 2021
+# 9 - 5 - 2021
 ## UNIBZ course: Programming and Visualisation for Data Analytics
 ## Data Visualisation and Exploration (Prof. Matteo Ceccarello)
 # Author: "Marcelo Eduardo Redoschi"
@@ -16,13 +25,20 @@ library(here)
 # 
 ```
 
-```{r}
-main_dir <-file.path(getwd())  # Main project folder
-drafts <-file.path(main_dir,"drafts")
-data_dir <- file.path(main_dir, "Data")
-maps_dir <- file.path(data_dir, "maps")
-maps_zip_dir <- file.path(maps_dir, "zip")
+```{r, code = readLines("paths.R")}
+source("paths.R")
 ```
+
+#https://stackoverflow.com/questions/52397430/include-code-from-an-external-r-script-run-in-display-both-code-and-output
+```{r, code = readLines("helper_functions.R")}
+source("helper_functions.R")
+```
+
+```{r, code = readLines("stores.R")}
+source("stores.R")
+```
+
+#### Maps 
 
 ```{r}
 #pa_municipality_boundaries_url<-"ftp://ftp.pasda.psu.edu/pub/pasda/padot/boundary_layers/PaMunicipalities2021_03.zip"
@@ -64,14 +80,52 @@ if (grepl("jovyan", getwd(), fixed=TRUE)) {
 pa_municipalities_shape
 ```
 
-
 ```{r}
-ggplot(pa_municipalities_shape)+geom_sf()
+pa_shape<-pa_municipalities_shape
+municipalities_url<-"https://dced.pa.gov/wp-content/plugins/web-service/csv/municipalities.csv"
+municipalities_path<-file.path(raw_dir, "pennsylvania_municipalities.csv")
+if (!file.exists(municipalities_path)) 
+  download.file(url=municipalities_url,destfile=municipalities_path)
 ```
 
+```{r}
+#ggplot(pa_municipalities_shape)+geom_sf()
+```
+
+####  Allegheny is of 67 counties in Pennsylvania.  
+
+  
 ```{r}
 allegheny_shape<-pa_municipalities_shape %>% filter(COUNTY=="02")
 ```
+
+####  Within the county there are four administrative subdivisions: 
+- Cities 
+- Boroughs
+- First townships
+- Second Townships 
+
 ```{r}
 ggplot(allegheny_shape)+geom_sf(aes(fill=CLASS_OF_M),color="black")+theme_minimal()+scale_fill_brewer(type = "div")
+```
+#### As observed above, the second townships may closely correspond with more rural areas. 
+
+```{r}
+allegheny_cities<-allegheny_shape %>% filter(CLASS_OF_M=="CITY")
+```
+
+```{r}
+allegheny_cities$pop_density<-allegheny_cities$FIPS_MUN_P/allegheny_cities$FIPS_SQ_MI
+city_centroids <- st_centroid(allegheny_cities)
+city_centroids$pop_density<-city_centroids$FIPS_MUN_P/city_centroids$FIPS_SQ_MI/(2.5889)
+ggplot(allegheny_cities)+geom_sf(aes(fill=MUNICIPAL1))+scale_fill_brewer(type="qual")+geom_sf(data=city_centroids,aes(size=pop_density))
+```
+
+```{r}
+allegheny_rural<-allegheny_shape %>% filter(CLASS_OF_M=="2TWP")
+```
+
+```{r}
+centroid <- st_centroid(allegheny_rural)
+ggplot(allegheny_rural)+geom_sf()+geom_sf(data = centroid, color = 'red')
 ```

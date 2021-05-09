@@ -1,0 +1,40 @@
+Table,Field Name,Description
+Stores,StoreID,ID number of the store
+Stores,StoreName,Name of the store
+Stores,Address,Street address
+Stores,MailingCity,City
+Stores,State,State
+Stores,Zip,Zip code
+Stores,CorpID,Internal use code
+Stores,Neighborhood,City of Pittsburgh neighborhood
+Stores,BusinessPhone,Phone number
+Stores,AlternatePhone,Other phone number
+Stores,Price_Verification,"Needs price verification (1=yes, 0=no)"
+Stores,FuelDispenser,"Has fuel dispensers (1=yes, 0=no)"
+Stores,Scale,"Has weigh scales (1=yes, 0=no)"
+Stores,Timing,"Has timing device (1=yes, 0=no)"
+Stores,MiscInspection,Not used
+Stores,PackageInspection,"Has package inspection (1=yes, 0=no)"
+Stores,OOB,"Out of business (1=yes, 0=no)"
+Stores,Unit,Not used
+Stores,ShoppingCenter,Shopping center name
+Stores,NewMunicipality,Municipality 
+Devices,DeviceID,ID number of the device
+Devices,StoreID,ID number of the store
+Devices,DeviceType,"Type of device (gasoline, jewelry scale, etc)"
+Devices,DeviceGroup,"Group of device (fuel, timing, scale, or miscellaneous)"
+Devices,Make,"Brand of scale, pump etc."
+Devices,Model,"Model of scale, pump etc."
+Devices,SerialNumber,Serial number
+Devices,Pump,Pump number
+Devices,Grade,Fuel grade
+Devices,Capacity,Capacity of pump or scale
+Devices,Remarks,Notes
+Devices,Deleted,"Old devices deleted from inspection schedule  (1=yes, 0=no)"
+Inspections,InspectionID,ID number of the inspection
+Inspections,StoreID,ID number of the store
+Inspections,DeviceID,"ID number of the device. If null, then a price verification was conducted and no weighing or measuring devices were tested. "
+Inspections,PriceVerTypeID,ID number of the price verification
+Inspections,Date,Date of inspection
+Inspections,Result,Result of inspection (pass/fail)
+Inspections,Reinspection,Whether the device needs to be reinspected (yes/no)

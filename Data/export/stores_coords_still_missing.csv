@@ -1,0 +1,3 @@
+"","store_id","store_name","address","mailing_city","state","zip","municipality","corp_id","neighborhood","longitude","latitude","business_phone","alternate_phone","price_verification","fuel_dispenser","scale","timing","misc_inspection","oob","unit","new_municipality","shopping_center_name","raw_store_name","flagship_store_name","is_shopping_center"
+"1",32811,"THR AND ASSOCIATES INC","3200 PLEASANT RUN","SPRINGDALE","PA","15144","SPRINGDALE",NA,"",NA,NA,"217-726-7590","",FALSE,FALSE,FALSE,FALSE,FALSE,TRUE,"","UNKNOWN","","THR AND ASSOCIATES INC",NA,0
+"2",32986,"WBMM MONEY CENTER","3685 WILLIAM PENN HWY","MONROEVILLE","PA","15146","MONROEVILLE",NA,"",NA,NA,"412-373-9553","",FALSE,FALSE,FALSE,FALSE,FALSE,TRUE,"","UNKNOWN","","WBMM MONEY CENTER",NA,0
